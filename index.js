@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(cors());
 
 // Kết nối MongoDB Atlas (Thay YOUR_CONNECTION_STRING)
-mongoose.connect('YOUR_CONNECTION_STRING', {
+mongoose.connect('mongodb+srv://mobile:quocnam@quocnam.kktu4dc.mongodb.net/?retryWrites=true&w=majority&appName=QuocNam', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => console.log('MongoDB connected'))
