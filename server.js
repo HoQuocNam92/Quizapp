@@ -43,5 +43,5 @@ app.post('/questions', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 app.listen(PORT, () => console.log(`Server chạy trên cổng ${PORT}`));
