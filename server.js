@@ -7,14 +7,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Kết nối tới MongoDB (sử dụng MONGO_URI từ biến môi trường hoặc kết nối cục bộ)
-const MONGO_URI = 'mongodb+srv://mobile:qk3QFE7qgWakNDLe@quocnam.kktu4dc.mongodb.net/?retryWrites=true&w=majority&appName=QuocNam';
+ const MONGO_URI = 'mongodb+srv://mobile:qk3QFE7qgWakNDLe@quocnam.kktu4dc.mongodb.net/?retryWrites=true&w=majority&appName=QuocNam';
 mongoose.connect(MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// API GET: Lấy câu hỏi theo quizId
-// Ví dụ: GET /questions?quizId=1 sẽ trả về tất cả câu hỏi của bài 1
+ 
 app.get('/questions', async (req, res) => {
   try {
     const quizId = req.query.quizId;
@@ -29,8 +27,7 @@ app.get('/questions', async (req, res) => {
     res.status(500).json({ error: 'Lỗi lấy câu hỏi' });
   }
 });
-
-// API POST: Thêm câu hỏi (có thể thêm 1 hoặc nhiều câu hỏi cùng lúc)
+ 
 app.post('/questions', async (req, res) => {
   try {
     if (Array.isArray(req.body)) {
