@@ -11,7 +11,7 @@ app.use(cors());
 const MONGO_URI = 'mongodb+srv://mobile:qk3QFE7qgWakNDLe@quocnam.kktu4dc.mongodb.net/?retryWrites=true&w=majority&appName=QuocNam';
 mongoose.connect(MONGO_URI)
   .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+  .catch(err => console.error('MongoDB connection error:', err));cd
 
 // API GET: Lấy câu hỏi theo quizId
 // Ví dụ: GET /questions?quizId=1 sẽ trả về tất cả câu hỏi của bài 1
