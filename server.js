@@ -7,10 +7,7 @@ app.use(express.json());
 app.use(cors());
 
 // Kết nối MongoDB Atlas (Thay YOUR_CONNECTION_STRING)
-mongoose.connect('mongodb+srv://mobile:qk3QFE7qgWakNDLe@quocnam.kktu4dc.mongodb.net/?retryWrites=true&w=majority&appName=QuocNam', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => console.log('MongoDB connected'))
+mongoose.connect('mongodb+srv://mobile:qk3QFE7qgWakNDLe@quocnam.kktu4dc.mongodb.net/?retryWrites=true&w=majority&appName=QuocNam', {}).then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err));
 
 const questionSchema = new mongoose.Schema({
