@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Quản trị Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 15px;
+        }
+
+        #message {
+            margin-top: 20px;
+            text-align: center;
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Dashboard Quản trị Quiz</h1>
+
+        <!-- Form Thêm bài quiz mới -->
+        <h2>Thêm bài quiz mới</h2>
+        <form id="quizForm">
+            <label for="quizId">Mã bài (Quiz ID):</label>
+            <input type="number" id="quizId" required>
+
+            <label for="topic">Chủ đề:</label>
+            <input type="text" id="topic" required>
+
+            <label for="description">Mô tả:</label>
+            <textarea id="description" rows="3"></textarea>
+
+            <label for="totalQuestions">Tổng số câu hỏi:</label>
+            <input type="number" id="totalQuestions" required>
+
+            <button type="submit">Thêm bài quiz</button>
+        </form>
+
+        <!-- Form Thêm câu hỏi mới -->
+        <h2>Thêm câu hỏi mới</h2>
+        <form id="questionForm">
+            <label for="qQuizId">Mã bài (Quiz ID):</label>
+            <input type="number" id="qQuizId" required>
+
+            <label for="qTopic">Chủ đề:</label>
+            <input type="text" id="qTopic" required>
+
+            <label for="questionText">Câu hỏi:</label>
+            <input type="text" id="questionText" required>
+
+            <label for="options">Các đáp án (phân cách bởi dấu phẩy):</label>
+            <input type="text" id="options" required>
+
+            <label for="answer">Chỉ mục đáp án đúng (bắt đầu từ 0):</label>
+            <input type="number" id="answer" required>
+
+            <button type="submit">Thêm câu hỏi</button>
+        </form>
+
+        <div id="message"></div>
+    </div>
+
+    <script>
+        // Form thêm bài quiz mới
+        const quizForm = document.getElementById('quizForm');
+        quizForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const quizId = document.getElementById('quizId').value;
+            const topic = document.getElementById('topic').value;
+            const description = document.getElementById('description').value;
+            const totalQuestions = document.getElementById('totalQuestions').value;
+
+            const quizData = {
+                quizId: Number(quizId),
+                topic,
+                description,
+                totalQuestions: Number(totalQuestions)
+            };
+
+            try {
+                // Endpoint này phải được định nghĩa trên backend để thêm bài quiz mới (collection Quizzes)
+                const response = await fetch('https://quizapp-1-vwbx.onrender.com/quiz', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(quizData)
+                });
+                const result = await response.json();
+                document.getElementById('message').innerText = result.message || 'Bài quiz được thêm thành công';
+                quizForm.reset();
+            } catch (error) {
+                console.error('Lỗi:', error);
+                document.getElementById('message').innerText = 'Có lỗi xảy ra khi thêm bài quiz';
+            }
+        });
+
+        // Form thêm câu hỏi mới
+        const questionForm = document.getElementById('questionForm');
+        questionForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const qQuizId = document.getElementById('qQuizId').value;
+            const qTopic = document.getElementById('qTopic').value;
+            const questionText = document.getElementById('questionText').value;
+            const options = document.getElementById('options').value.split(',').map(opt => opt.trim());
+            const answer = document.getElementById('answer').value;
+
+            const questionData = {
+                quizId: Number(qQuizId),
+                topic: qTopic,
+                question: questionText,
+                options,
+                answer: Number(answer)
+            };
+
+            try {
+                // Sử dụng endpoint hiện có để thêm câu hỏi vào collection Questions
+                const response = await fetch('https://quizapp-1-vwbx.onrender.com/questions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(questionData)
+                });
+                const result = await response.json();
+                document.getElementById('message').innerText = result.message || 'Câu hỏi được thêm thành công';
+                questionForm.reset();
+            } catch (error) {
+                console.error('Lỗi:', error);
+                document.getElementById('message').innerText = 'Có lỗi xảy ra khi thêm câu hỏi';
+            }
+        });
+    </script>
+</body>
+
+</html>
